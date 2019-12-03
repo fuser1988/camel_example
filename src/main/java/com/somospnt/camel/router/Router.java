@@ -22,30 +22,32 @@ public class Router extends RouteBuilder {
     public void configure() throws Exception {
 
 //        from("servlet:///feriados").to("direct:inicio");
-        rest("/feriados").consumes("application:json")
-                .post().description("se postean feriados")
-                .to("direct:pipeline");
-
-        from("direct:pipeline")
-                .unmarshal().json(JsonLibrary.Jackson, Feriado[].class)
-                .split(body()).pipeline("direct:inicio", "direct:otro");
-
-        from("direct:otro")
-                .log(body().toString());
-        from("direct:inicio")
-                .log("entro al inicio")
-                .choice()
-                .when().method(feriadoService, "esInamovible")
-                .to("direct:Inamovibles")
-                .otherwise()
-                .to("direct:NoInamovible");
-        
-//        from("timer://foo?fixedRate=true&delay=0&period=4000")
-//                .to("http://apiday.somospnt.com/api/feriados/2016")
+//        rest("/feriados").consumes("application:json")
+//                .post().description("se postean feriados")
+//                .to("direct:pipeline");
+//
+//        from("direct:pipeline")
 //                .unmarshal().json(JsonLibrary.Jackson, Feriado[].class)
-//                .log("unmarshal: || " + body() + " || ")
-//                .split().body()
-//                .log("spliteado || " + body() + " || ")
+//                .split(body()).pipeline("direct:inicio", "direct:otro");
+//
+//        from("direct:otro")
+//                .log(body().toString());
+//        from("direct:inicio")
+//                .log("entro al inicio")
+//                .choice()
+//                .when().method(feriadoService, "esInamovible")
+//                .to("direct:Inamovibles")
+//                .otherwise()
+//                .to("direct:NoInamovible");
+//        
+        from("timer://foo?fixedRate=true&delay=0&period=4000")
+                .to("http://apiday.somospnt.com/api/feriados/2016")
+                .unmarshal().json(JsonLibrary.Jackson, Feriado[].class)
+                .log("unmarshal: || " + body() + " || ")
+                .split().body()
+                .log("spliteado || " + body() + " || ");
+//                .multicast().to("direct:Inamovibles","direct:Inamovibles");
+                
 //                .choice()
 //                .when().method(feriadoService, "esInamovible")
 //                .to("direct:Inamovibles")
@@ -53,16 +55,18 @@ public class Router extends RouteBuilder {
 //                .to("direct:NoInamovible");
 
         from("direct:Inamovibles")
-                .transform().method(feriadoService, "inamovibles")
-                //                .to("direct:baseDatos")
-                .log(body().toString());
+                .log("paso por inamovibles");
+//                .transform().method(feriadoService, "inamovibles")
+//                //                .to("direct:baseDatos")
+//                .log(body().toString());
 
         from("direct:NoInamovible")
-                .choice()
-                .when().method(feriadoService, "esMesMayorA6")
-                .to("direct:Mayores")
-                .otherwise()
-                .to("direct:Menores");
+                .log("paso por inamovibles");
+//                .choice()
+//                .when().method(feriadoService, "esMesMayorA6")
+//                .to("direct:Mayores")
+//                .otherwise()
+//                .to("direct:Menores");
 
         from("direct:Mayores")
                 .transform().method(feriadoService, "mesMayorA6")
@@ -74,9 +78,9 @@ public class Router extends RouteBuilder {
                 //                .to("direct:baseDatos")
                 .log(body().toString());
 
-        from("direct:baseDatos")
-                .log("se guardaron")
-                .inOnly("jpa://com.somospnt.camel.domain.Feriado");
+//        from("direct:baseDatos")
+//                .log("se guardaron")
+//                .inOnly("jpa://com.somospnt.camel.domain.Feriado");
 
     }
 }
