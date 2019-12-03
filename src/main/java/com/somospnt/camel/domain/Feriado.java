@@ -2,21 +2,12 @@ package com.somospnt.camel.domain;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Temporal;
 
-@Entity
 public class Feriado implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String descripcion;
     private String tipo;
-    @Temporal(javax.persistence.TemporalType.DATE)
     private Date fecha;
     private String equipo;
 
@@ -62,7 +53,7 @@ public class Feriado implements Serializable {
 
     @Override
     public String toString() {
-        return "Feriado " + this.equipo + " - " + this.descripcion;
+        return "Feriado " + this.tipo + " - " + this.descripcion;
     }
 
 }
