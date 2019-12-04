@@ -15,19 +15,19 @@ import org.junit.Test;
 
 public class RouterTest extends CamelDemoApplicationTests{
     
-    @EndpointInject(uri = "mock:otro")
-    protected MockEndpoint resultEndpoint;
-    
-    @Produce(uri = "direct:pipeline")
-    protected ProducerTemplate template;
-    
-    @Test
-    public void mandarFeriados_enJson_seGuardaEnBase() throws IOException, InterruptedException {
-        String feriados = IOUtils.toString(new FileInputStream("src/test/resources/feriados.json"), "UTF-8");
-        resultEndpoint.expectedBodyReceived();
-        template.sendBody(feriados);
-        resultEndpoint.assertIsSatisfied();
-        
-        
-    }
+//    @EndpointInject(uri = "mock:otro")
+//    protected MockEndpoint resultEndpoint;
+//    
+//    @Produce(uri = "direct:pipeline")
+//    protected ProducerTemplate template;
+//    
+//    @Test
+//    public void mandarFeriados_enJson_seGuardaEnBase() throws IOException, InterruptedException {
+//        String feriados = IOUtils.toString(new FileInputStream("src/test/resources/feriados.json"), "UTF-8");
+//        resultEndpoint.expectedBodyReceived();
+//        template.sendBody(feriados);
+//        resultEndpoint.assertIsSatisfied();
+//        
+//        
+//    }
 }
