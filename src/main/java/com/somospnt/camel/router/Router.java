@@ -18,30 +18,10 @@ public class Router extends RouteBuilder {
     @Override
     public void configure() throws Exception {
 
-//        from("servlet:///feriados").to("direct:inicio");
-//        rest("/feriados").consumes("application:json")
-//                .post().description("se postean feriados")
-//                .to("direct:pipeline");
-//
-//        from("direct:pipeline")
-//                .unmarshal().json(JsonLibrary.Jackson, Feriado[].class)
-//                .split(body()).pipeline("direct:inicio", "direct:otro");
-//
-//        from("direct:otro")
-//                .log(body().toString());
-//        from("direct:inicio")
-//                .log("entro al inicio")
-//                .choice()
-//                .when().method(feriadoService, "esInamovible")
-//                .to("direct:Inamovibles")
-//                .otherwise()
-//                .to("direct:NoInamovible");
-//        
         from("timer://foo?fixedRate=true&delay=0&period=4000")
                 .to("http://apiday.somospnt.com/api/feriados/2019")
                 .unmarshal().json(JsonLibrary.Jackson, Feriado[].class)
-                .split(body()).to("direct:inicio");
-//                .pipeline("direct:inicio", "direct:otro");
+                .split(body()).to("direct:otro");
         
         from("direct:otro")
                 .filter(message -> (message.getIn().getBody(Feriado.class).getTipo().equals("INAMOVIBLE")))               
@@ -49,39 +29,16 @@ public class Router extends RouteBuilder {
                 .to("file:C:/Dias no laborales/2019");
                 
         
-        
         from("direct:inicio")
 //                .marshal().jacksonxml()
-                .setHeader(Exchange.HTTP_METHOD, constant(HttpMethods.POST))
-                .to("http://demo0144334.mockable.io/Api/feriados")
+//                .setHeader(Exchange.HTTP_METHOD, constant(HttpMethods.POST))
+//                .to("http://demo0144334.mockable.io/Api/feriados")
                 .log(body().toString());
-//                .log("entro al inicio")
-//                .choice()
-//                .when().method(feriadoService, "esInamovible")
-//                .to("direct:Inamovibles")
-//                .otherwise()
-//                .to("direct:NoInamovible");        
 
-
-        
-                
-//                .split(body())
-//                .filter(message -> (message.getIn().getBody(Feriado.class).getTipo().equals("INAMOVIBLE")))
-//                
-//                    
-//                .choice()
-//                .when().method(feriadoService, "esMesMayorA6")
-//                .to("direct:Mayores")
-//                .otherwise()
-//                .to("direct:Menores");
-                
                
         from("direct:Inamovibles")
                 
                 .log("paso por inamovibles".concat(body().toString()));
-//                .transform().method(feriadoService, "inamovibles")
-//                //                .to("direct:baseDatos")
-//                .log(body().toString());
 
         from("direct:NoInamovible")
                 .log("paso por Noinamovibles".concat(body().toString()));

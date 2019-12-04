@@ -6,7 +6,6 @@ import java.util.Date;
 public class Feriado implements Serializable {
 
     private Long id;
-//    @JacksonXmlRootElemen(isAttribute=true)
     private String descripcion;
     private String tipo;
     private Date fecha;
