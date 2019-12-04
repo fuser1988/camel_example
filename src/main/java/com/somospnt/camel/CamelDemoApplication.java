@@ -21,18 +21,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class CamelDemoApplication {
 
-    private static final String CAMEL_URL_MAPPING = "/*";
-    private static final String CAMEL_SERVLET_NAME = "CamelServlet";
-
     public static void main(String[] args) {
         SpringApplication.run(CamelDemoApplication.class, args);
-    }
-
-    @Bean
-    public ServletRegistrationBean servletRegistrationBean() {
-        ServletRegistrationBean registration = new ServletRegistrationBean(new CamelHttpTransportServlet(), CAMEL_URL_MAPPING);
-        registration.setName(CAMEL_SERVLET_NAME);
-        return registration;
     }
 
     @Bean

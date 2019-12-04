@@ -1,23 +1,13 @@
 package com.somospnt.camel.domain;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import java.util.Date;
 
-public class Feriado implements Serializable {
-
-    private Long id;
+@JacksonXmlRootElement(namespace = "urn:stackify:jacksonxml", localName = "Feriado")
+public class Feriado{
     private String descripcion;
     private String tipo;
     private Date fecha;
-    private String equipo;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getDescripcion() {
         return descripcion;
@@ -41,14 +31,6 @@ public class Feriado implements Serializable {
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;
-    }
-
-    public String getEquipo() {
-        return equipo;
-    }
-
-    public void setEquipo(String equipo) {
-        this.equipo = equipo;
     }
 
     @Override
